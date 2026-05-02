@@ -1,0 +1,16 @@
+kind: wasmer.io/App.v0
+name: joker-club
+package: .
+
+debug: true
+
+capabilities:
+  database:
+    engine: mysql
+
+locality:
+  regions:
+    - be-mons1
+
+scaling:
+  mode: single_concurrency
