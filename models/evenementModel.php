@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/database.php';
 
 class EvenementModel
 {
-    private PDO $pdo;
+    private $pdo;
 
     public function __construct()
     {
@@ -59,7 +59,7 @@ class EvenementModel
     }
 
     // ── Un événement par ID ──────────────────────────────────
-    public function getParId(int $id): array|false
+    public function getParId(int $id)
     {
         $stmt = $this->pdo->prepare(
             "SELECT e.*,

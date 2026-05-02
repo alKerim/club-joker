@@ -13,11 +13,11 @@ require_once __DIR__ . '/../controllers/AuthController.php';
 
 class AdminController
 {
-    private EvenementModel   $evenementModel;
-    private ReunionModel     $reunionModel;
-    private DemandeModel     $demandeModel;
-    private TacheModel       $tacheModel;
-    private UtilisateurModel $utilisateurModel;
+    private $evenementModel;
+    private $reunionModel;
+    private $demandeModel;
+    private $tacheModel;
+    private $utilisateurModel;
 
     public function __construct()
     {

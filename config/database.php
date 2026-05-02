@@ -8,13 +8,13 @@
 class Database
 {
     // ── Paramètres locaux de secours (XAMPP/WAMP) ────────────
-    private static string $host     = 'localhost';
-    private static string $dbname   = 'joker_club';
-    private static string $user     = 'root';
-    private static string $password = '';
-    private static string $charset  = 'utf8mb4';
+    private static $host     = 'localhost';
+    private static $dbname   = 'joker_club';
+    private static $user     = 'root';
+    private static $password = '';
+    private static $charset  = 'utf8mb4';
 
-    private static ?PDO $instance = null;
+    private static $instance = null;
 
     // Constructeur privé → empêche l'instanciation directe
     private function __construct() {}
@@ -54,7 +54,7 @@ class Database
         return self::$instance;
     }
 
-    private static function env(string $key, string $default = ''): string
+    private static function env(string $key, string $default = '')
     {
         $value = getenv($key);
         if ($value === false || $value === '') {

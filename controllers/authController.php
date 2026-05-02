@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/UtilisateurModel.php';
 
 class AuthController
 {
-    private UtilisateurModel $utilisateurModel;
+    private $utilisateurModel;
 
     public function __construct()
     {

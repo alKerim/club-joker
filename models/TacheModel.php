@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config/database.php';
 
 class TacheModel
 {
-    private PDO $pdo;
+    private $pdo;
 
     public function __construct()
     {
@@ -46,7 +46,7 @@ class TacheModel
     }
 
     // ── Une tâche par ID ─────────────────────────────────────
-    public function getParId(int $id): array|false
+    public function getParId(int $id)
     {
         $stmt = $this->pdo->prepare(
             "SELECT t.*, u.nom AS assigné_nom

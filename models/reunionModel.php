@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/database.php';
 
 class ReunionModel
 {
-    private PDO $pdo;
+    private $pdo;
 
     public function __construct()
     {
@@ -29,7 +29,7 @@ class ReunionModel
     }
 
     // ── Une réunion par ID ───────────────────────────────────
-    public function getParId(int $id): array|false
+    public function getParId(int $id)
     {
         $stmt = $this->pdo->prepare(
             "SELECT r.*, u.nom AS createur_nom

@@ -9,7 +9,7 @@ require_once __DIR__ . '/../controllers/AuthController.php';
 
 class EvenementController
 {
-    private EvenementModel $evenementModel;
+    private $evenementModel;
 
     public function __construct()
     {

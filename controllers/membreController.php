@@ -12,9 +12,9 @@ require_once __DIR__ . '/../controllers/AuthController.php';
 
 class MembreController
 {
-    private EvenementModel $evenementModel;
-    private ReunionModel   $reunionModel;
-    private TacheModel     $tacheModel;
+    private $evenementModel;
+    private $reunionModel;
+    private $tacheModel;
 
     public function __construct()
     {

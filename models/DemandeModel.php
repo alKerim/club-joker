@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config/database.php';
 
 class DemandeModel
 {
-    private PDO $pdo;
+    private $pdo;
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class DemandeModel
     }
 
     // ── Une demande par ID ───────────────────────────────────
-    public function getParId(int $id): array|false
+    public function getParId(int $id)
     {
         $stmt = $this->pdo->prepare(
             "SELECT * FROM demandes_adhesion WHERE id = :id LIMIT 1"

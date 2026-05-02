@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config/database.php';
 
 class UtilisateurModel
 {
-    private PDO $pdo;
+    private $pdo;
 
     public function __construct()
     {
@@ -42,7 +42,7 @@ class UtilisateurModel
     }
 
     // ── Trouver un utilisateur par email ─────────────────────
-    public function trouverParEmail(string $email): array|false
+    public function trouverParEmail(string $email)
     {
         $stmt = $this->pdo->prepare(
             "SELECT * FROM utilisateurs WHERE email = :email LIMIT 1"
@@ -52,7 +52,7 @@ class UtilisateurModel
     }
 
     // ── Trouver un utilisateur par ID ────────────────────────
-    public function trouverParId(int $id): array|false
+    public function trouverParId(int $id)
     {
         $stmt = $this->pdo->prepare(
             "SELECT id, nom, email, role, statut, telephone, date_inscription
@@ -109,7 +109,7 @@ class UtilisateurModel
     }
 
     // ── Vérifier les identifiants (connexion) ────────────────
-    public function verifierConnexion(string $email, string $motDePasse): array|false
+    public function verifierConnexion(string $email, string $motDePasse)
     {
         $utilisateur = $this->trouverParEmail($email);
         if (!$utilisateur) {

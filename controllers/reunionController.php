@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/ReunionModel.php';
 
 class ReunionController
 {
-    private ReunionModel $reunionModel;
+    private $reunionModel;
 
     public function __construct()
     {
