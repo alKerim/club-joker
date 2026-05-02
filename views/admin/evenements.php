@@ -156,7 +156,7 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
                   <td><?= htmlspecialchars($e['lieu'] ?? '—') ?></td>
                   <td>
                     <span class="event-badge <?= $e['type'] === 'public' ? 'public' : 'private' ?>">
-                      <?= $e['type'] === 'public' ? ' Public' : ' Privé' ?>
+                      <?= $e['type'] === 'public' ? '🌐 Public' : '🔒 Privé' ?>
                     </span>
                   </td>
                   <td>
@@ -214,8 +214,8 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
             <div class="col-md-4">
               <label class="form-label">Type</label>
               <select class="form-select" name="type">
-                <option value="public"> Public</option>
-                <option value="prive"> Privé</option>
+                <option value="public">🌐 Public</option>
+                <option value="prive">🔒 Privé</option>
               </select>
             </div>
             <div class="col-md-4">
@@ -270,8 +270,8 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
             <div class="col-md-4">
               <label class="form-label">Type</label>
               <select class="form-select" name="type" id="modif-evt-type">
-                <option value="public"> Public</option>
-                <option value="prive"> Privé</option>
+                <option value="public">🌐 Public</option>
+                <option value="prive">🔒 Privé</option>
               </select>
             </div>
             <div class="col-md-4">

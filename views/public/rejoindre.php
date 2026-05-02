@@ -27,7 +27,7 @@ require_once __DIR__ . '/../layout/header.php';
 <!-- Page Header -->
 <div class="page-header">
   <div class="container" style="position:relative;z-index:2;">
-    <h1 class="animate-fadeInUp"> Rejoindre le Club</h1>
+    <h1 class="animate-fadeInUp">🃏 Rejoindre le Club</h1>
     <p class="animate-fadeInUp delay-1">Envoyez votre candidature — nous vous contacterons rapidement.</p>
   </div>
 </div>
@@ -79,15 +79,15 @@ require_once __DIR__ . '/../layout/header.php';
         <div class="joker-card mt-4 p-4">
           <div class="row text-center g-3">
             <div class="col-4">
-              <div class="stat-value" style="font-size:1.6rem">60+</div>
+              <div class="stat-value" style="font-size:1.6rem">120+</div>
               <div class="stat-label">Membres</div>
             </div>
             <div class="col-4">
-              <div class="stat-value" style="font-size:1.6rem">8</div>
+              <div class="stat-value" style="font-size:1.6rem">48</div>
               <div class="stat-label">Événements/an</div>
             </div>
             <div class="col-4">
-              <div class="stat-value" style="font-size:1.6rem">9</div>
+              <div class="stat-value" style="font-size:1.6rem">5</div>
               <div class="stat-label">Années</div>
             </div>
           </div>
@@ -110,41 +110,13 @@ require_once __DIR__ . '/../layout/header.php';
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Téléphone</label>
-                  <input type="tel" class="form-control" name="telephone" id="telephone"
-                         placeholder="55 123 456"
-                         pattern="[234579][0-9]{7}"
-                         maxlength="8"
-                         title="Numéro tunisien : 8 chiffres commençant par 2, 3, 4, 5, 7 ou 9">
-                  <div class="invalid-feedback">Numéro invalide : 8 chiffres, commençant par 2, 3, 4, 5, 7 ou 9.</div>
-                  <div class="form-text text-muted" style="font-size:0.75rem">Ex: 55123456 · 22456789</div>
+                  <input type="tel" class="form-control" name="telephone"
+                         placeholder="XX XXX XXX">
                 </div>
                 <div class="col-12">
                   <label class="form-label">Email universitaire *</label>
                   <input type="email" class="form-control" name="email"
                          placeholder="votre@univ.tn" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Mot de passe *</label>
-                  <div class="input-group">
-                    <input type="password" class="form-control" name="mot_de_passe" id="mot_de_passe"
-                           placeholder="Choisissez un mot de passe" required minlength="6">
-                    <button type="button" class="btn btn-outline-secondary" tabindex="-1"
-                            onclick="togglePwd('mot_de_passe','eye1')" title="Voir/Cacher">
-                      <i class="bi bi-eye" id="eye1"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Confirmer mot de passe *</label>
-                  <div class="input-group">
-                    <input type="password" class="form-control" name="mot_de_passe_confirm" id="mot_de_passe_confirm"
-                           placeholder="Répétez le mot de passe" required minlength="6">
-                    <button type="button" class="btn btn-outline-secondary" tabindex="-1"
-                            onclick="togglePwd('mot_de_passe_confirm','eye2')" title="Voir/Cacher">
-                      <i class="bi bi-eye" id="eye2"></i>
-                    </button>
-                  </div>
-                  <div class="form-text text-danger d-none" id="pwd-mismatch">Les mots de passe ne correspondent pas.</div>
                 </div>
                 <div class="col-12">
                   <label class="form-label">Pourquoi souhaitez-vous rejoindre le Club Joker ?</label>
@@ -186,60 +158,4 @@ require_once __DIR__ . '/../layout/header.php';
   </div>
 </section>
 
-<script>
-function togglePwd(inputId, iconId) {
-  var inp = document.getElementById(inputId);
-  var ico = document.getElementById(iconId);
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    ico.classList.replace('bi-eye', 'bi-eye-slash');
-  } else {
-    inp.type = 'password';
-    ico.classList.replace('bi-eye-slash', 'bi-eye');
-  }
-}
-
-// Validation téléphone tunisien en temps réel (8 chiffres, commence par 2,3,4,5,7,9)
-document.getElementById('telephone').addEventListener('input', function() {
-  var clean = this.value.replace(/[\s\-]/g, '');
-  var valid = /^[234579]\d{7}$/.test(clean);
-  if (this.value !== '' && !valid) {
-    this.classList.add('is-invalid');
-  } else {
-    this.classList.remove('is-invalid');
-  }
-});
-
-// Vérification correspondance mots de passe
-document.getElementById('mot_de_passe_confirm').addEventListener('input', function() {
-  var mdp = document.getElementById('mot_de_passe').value;
-  var msg = document.getElementById('pwd-mismatch');
-  if (this.value && this.value !== mdp) {
-    msg.classList.remove('d-none');
-    this.classList.add('is-invalid');
-  } else {
-    msg.classList.add('d-none');
-    this.classList.remove('is-invalid');
-  }
-});
-
-// Bloquer soumission si mots de passe différents
-document.querySelector('.form-joker').addEventListener('submit', function(e) {
-  var mdp  = document.getElementById('mot_de_passe').value;
-  var conf = document.getElementById('mot_de_passe_confirm').value;
-  if (mdp !== conf) {
-    e.preventDefault();
-    document.getElementById('pwd-mismatch').classList.remove('d-none');
-    document.getElementById('mot_de_passe_confirm').classList.add('is-invalid');
-  }
-  var tel = document.getElementById('telephone');
-  if (tel.value !== '') {
-    var clean = tel.value.replace(/[\s\-]/g, '');
-    if (!/^[234579]\d{7}$/.test(clean)) {
-      e.preventDefault();
-      tel.classList.add('is-invalid');
-    }
-  }
-});
-</script>
 <?php require_once __DIR__ . '/../layout/footer.php'; ?>

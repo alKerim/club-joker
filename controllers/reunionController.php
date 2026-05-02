@@ -4,7 +4,7 @@
  * Page publique des réunions
  */
 
-require_once __DIR__ . '/../models/reunionModel.php';
+require_once __DIR__ . '/../models/ReunionModel.php';
 
 class ReunionController
 {

@@ -1,10 +1,11 @@
 <?php
 /**
  * views/layout/header.php
- * En-tête commun — MAJ logo image + lien Nous rejoindre → page rejoindre
+ * En-tête commun à toutes les pages publiques
+ * Variable attendue : $pageCourante (ex: 'accueil', 'evenements', 'reunions')
  */
 
-$user         = $_SESSION['user'] ?? null;
+$user       = $_SESSION['user'] ?? null;
 $pageCourante = $pageCourante ?? '';
 ?>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ $pageCourante = $pageCourante ?? '';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Club Joker — <?= htmlspecialchars($titreePage ?? 'Bienvenue') ?></title>
-  <link rel="icon" type="image/png" href="image/joker.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🃏</text></svg>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="public/style.css">
@@ -23,14 +24,10 @@ $pageCourante = $pageCourante ?? '';
 <!-- ═══════ NAVBAR ═══════ -->
 <nav class="navbar navbar-joker navbar-expand-lg">
   <div class="container">
-    <!-- LOGO IMAGE -->
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.php?page=accueil">
-      <img src="image/joker.png" alt="Club Joker" style="height:40px;object-fit:contain"
-           onerror="this.style.display='none'">
-      Club <span style="color:var(--red-light)">Joker</span>
+    <a class="navbar-brand" href="index.php?page=accueil">
+      🃏 Club <span style="color:var(--red-light)">Joker</span>
       <span class="brand-dot"></span>
     </a>
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#mainNav" aria-label="Menu">
       <span class="navbar-toggler-icon"></span>
@@ -53,9 +50,7 @@ $pageCourante = $pageCourante ?? '';
           <a class="nav-link" href="index.php?page=accueil#a-propos">À propos</a>
         </li>
         <li class="nav-item">
-          <!--  Lien correct vers la page rejoindre -->
-          <a class="nav-link <?= $pageCourante === 'rejoindre' ? 'active' : '' ?>"
-             href="index.php?page=rejoindre">Nous rejoindre</a>
+          <a class="nav-link" href="index.php?page=accueil#rejoindre">Nous rejoindre</a>
         </li>
       </ul>
 
@@ -76,8 +71,7 @@ $pageCourante = $pageCourante ?? '';
           </a>
         <?php else: ?>
           <a href="index.php?page=login" class="btn btn-joker-blue btn-sm">Connexion</a>
-          <!--  Bouton "Nous rejoindre" → page rejoindre -->
-          <a href="index.php?page=rejoindre" class="btn btn-joker-red btn-sm">Nous rejoindre</a>
+          <a href="index.php?page=accueil#rejoindre" class="btn btn-joker-red btn-sm">Nous rejoindre</a>
         <?php endif; ?>
       </div>
 

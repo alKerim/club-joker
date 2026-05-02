@@ -34,9 +34,9 @@
       <div class="col-lg-4 col-sm-4">
         <div class="fw-bold mb-2 small" style="color:var(--beige);letter-spacing:.5px">Contact</div>
         <ul class="list-unstyled small">
-          <li class="mb-1"><i class="bi bi-envelope-fill me-2 text-red"></i>clubjoker@gmail.com</li>
-          <li class="mb-1"><i class="bi bi-geo-alt-fill me-2 text-red"></i>Technopole , Manouba</li>
-          <li class="mb-1"><i class="bi bi-instagram me-2 text-red"></i>club joker </li>
+          <li class="mb-1"><i class="bi bi-envelope-fill me-2 text-red"></i>joker@univ.tn</li>
+          <li class="mb-1"><i class="bi bi-geo-alt-fill me-2 text-red"></i>Campus Universitaire, Tunis</li>
+          <li class="mb-1"><i class="bi bi-instagram me-2 text-red"></i>@clubjoker.univ</li>
         </ul>
       </div>
     </div>
@@ -46,7 +46,7 @@
         © 2025 Club Joker. Tous droits réservés.
       </div>
       <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
-        <span class="small" style="color:rgba(245,236,215,0.35)">Fait avec ️ par les membres du club</span>
+        <span class="small" style="color:rgba(245,236,215,0.35)">Fait avec ❤️ par les membres du club</span>
       </div>
     </div>
   </div>

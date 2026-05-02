@@ -14,7 +14,7 @@ if (!function_exists('formatDateFr')) {
 ?>
 <div class="page-header">
   <div class="container" style="position:relative;z-index:2;">
-    <h1 class="animate-fadeInUp"> Réunions</h1>
+    <h1 class="animate-fadeInUp">🤝 Réunions</h1>
     <p class="animate-fadeInUp delay-1">Consultez le planning des réunions du club.</p>
   </div>
 </div>

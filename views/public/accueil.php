@@ -1,7 +1,7 @@
 <?php
 /**
  * views/public/accueil.php
- * Page d'accueil — MAJ : suppression form rejoindre, bouton redirect vers page rejoindre
+ * Page d'accueil — fidèle au design original
  */
 $titreePage   = 'Accueil';
 $pageCourante = 'accueil';
@@ -11,10 +11,6 @@ require_once __DIR__ . '/../layout/header.php';
 require_once __DIR__ . '/../../models/UtilisateurModel.php';
 $utilisateurModel = new UtilisateurModel();
 $nbMembres        = $utilisateurModel->compterMembres();
-
-// Variables flash
-$flash_success = $flash_success ?? null;
-$flash_error   = $flash_error   ?? null;
 ?>
 
 <!-- Helper formatage date -->
@@ -48,7 +44,7 @@ function formatDateFr(string $date): string {
   <div class="container">
     <div class="row align-items-center g-5">
       <div class="col-lg-7 hero-content">
-        <div class="hero-badge"> Club Universitaire #1</div>
+        <div class="hero-badge">✨ Club Universitaire #1</div>
         <h1 class="hero-title animate-fadeInUp">
           Bienvenue au<br>Club <span>Joker</span>
         </h1>
@@ -57,8 +53,7 @@ function formatDateFr(string $date): string {
           Rejoignez notre communauté et transformez vos idées en réalité.
         </p>
         <div class="d-flex gap-3 flex-wrap animate-fadeInUp delay-2">
-          <!--  Redirige vers la page rejoindre (plus d'ancre #rejoindre) -->
-          <a href="index.php?page=rejoindre" class="btn btn-joker-red">
+          <a href="#rejoindre" class="btn btn-joker-red">
             Rejoindre le club <i class="bi bi-arrow-right ms-1"></i>
           </a>
           <a href="index.php?page=evenements"
@@ -73,11 +68,11 @@ function formatDateFr(string $date): string {
             <span class="stat-label">Membres actifs</span>
           </div>
           <div class="hero-stat">
-            <span class="stat-num">8</span>
+            <span class="stat-num">48</span>
             <span class="stat-label">Événements/an</span>
           </div>
           <div class="hero-stat">
-            <span class="stat-num">9</span>
+            <span class="stat-num">5</span>
             <span class="stat-label">Années d'existence</span>
           </div>
         </div>
@@ -123,8 +118,7 @@ function formatDateFr(string $date): string {
           <p>Fondé en 2020, le Club Joker est un espace d'épanouissement académique et personnel.
              Nous organisons des événements, des formations et des projets innovants.</p>
         </div>
-        <!--  Lien vers page rejoindre -->
-        <a href="index.php?page=rejoindre" class="btn btn-joker-blue">Rejoindre l'aventure</a>
+        <a href="#rejoindre" class="btn btn-joker-blue">Rejoindre l'aventure</a>
       </div>
       <div class="col-lg-7">
         <div class="row g-3">
@@ -187,7 +181,7 @@ function formatDateFr(string $date): string {
           <div class="joker-card h-100">
             <div class="card-body p-4">
               <div class="d-flex align-items-start justify-content-between mb-3">
-                <span class="event-badge public"> Public</span>
+                <span class="event-badge public">🌐 Public</span>
                 <small class="text-muted fw-bold"><?= formatDateFr($evt['date_evenement']) ?></small>
               </div>
               <h5 class="text-blue fw-bold mb-2"><?= htmlspecialchars($evt['titre']) ?></h5>
@@ -227,7 +221,7 @@ function formatDateFr(string $date): string {
   </div>
 </section>
 
-<!-- ═══════ MODAL INSCRIPTION ÉVÉNEMENT ═══════ -->
+<!-- ═══════ MODAL INSCRIPTION ═══════ -->
 <div class="modal fade modal-joker" id="modalInscription" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -263,35 +257,57 @@ function formatDateFr(string $date): string {
   </div>
 </div>
 
-<!-- ═══════ SECTION REJOINDRE — CTA simple (sans formulaire) ═══════ -->
+<!-- ═══════ SECTION REJOINDRE ═══════ -->
 <section class="join-section" id="rejoindre">
   <div class="container" style="position:relative;z-index:2;">
     <div class="row justify-content-center">
-      <div class="col-lg-7 text-center">
+      <div class="col-lg-7 text-center mb-5">
         <span class="overline text-beige" style="opacity:.8">Devenir membre</span>
         <h2 class="text-beige mb-3" style="font-size:clamp(1.8rem,4vw,3rem)">Rejoignez le Club Joker</h2>
-        <p style="color:rgba(245,236,215,0.75);font-size:1.05rem;margin-bottom:2rem">
-          Créez votre compte, choisissez votre mot de passe et rejoignez notre communauté.
-          L'admin examinera votre candidature et activera votre accès.
+        <p style="color:rgba(245,236,215,0.75);font-size:1.05rem">
+          Envoyez une demande — nous examinerons votre candidature et vous contacterons.
         </p>
-        <!--  Bouton redirige vers la vraie page rejoindre avec le formulaire complet -->
-        <a href="index.php?page=rejoindre" class="btn btn-joker-blue btn-lg px-5 py-3">
-          <i class="bi bi-person-plus-fill me-2"></i>Créer mon compte
-        </a>
-        <p class="mt-3" style="color:rgba(245,236,215,0.5);font-size:.9rem">
-          Déjà membre ? <a href="index.php?page=login" style="color:var(--beige);font-weight:bold">Connectez-vous</a>
-        </p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="joker-card">
+          <div class="card-body p-4">
+            <form method="POST" action="index.php?page=rejoindre" class="form-joker">
+              <div class="mb-3">
+                <label class="form-label">Nom complet *</label>
+                <input type="text" class="form-control" name="nom" placeholder="Votre nom complet" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Email universitaire *</label>
+                <input type="email" class="form-control" name="email" placeholder="votre@univ.tn" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" name="telephone" placeholder="XX XXX XXX">
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Pourquoi souhaitez-vous rejoindre le club ?</label>
+                <textarea class="form-control" name="message" rows="3"
+                          placeholder="Dites-nous ce qui vous motive..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-joker-blue w-100">
+                <i class="bi bi-send-fill me-2"></i>Envoyer ma candidature
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script pour passer l'ID de l'événement au modal -->
 <script>
 document.getElementById('modalInscription')?.addEventListener('show.bs.modal', function(e) {
   const btn = e.relatedTarget;
-  document.getElementById('modal-evt-id').value             = btn.getAttribute('data-id');
-  document.getElementById('modal-evt-titre').textContent    = btn.getAttribute('data-titre');
+  document.getElementById('modal-evt-id').value    = btn.getAttribute('data-id');
+  document.getElementById('modal-evt-titre').textContent = btn.getAttribute('data-titre');
 });
 </script>
 

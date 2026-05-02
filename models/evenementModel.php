@@ -19,12 +19,10 @@ class EvenementModel
     public function getTous(string $filtre = 'tous'): array
     {
         $sql = "SELECT e.*,
-               u.nom AS createur_nom,
-               (SELECT COUNT(*) FROM inscriptions_evenements i
-                WHERE i.id_evenement = e.id) AS nb_inscrits
-        FROM evenements e
-        LEFT JOIN utilisateurs u ON e.id_createur = u.id
-        WHERE 1=1";
+                       (SELECT COUNT(*) FROM inscriptions_evenements i
+                        WHERE i.id_evenement = e.id) AS nb_inscrits
+                FROM evenements e
+                WHERE 1=1";
 
         $params = [];
 
@@ -45,36 +43,31 @@ class EvenementModel
 
     // ── Événements publics (accueil) ─────────────────────────
     public function getPublics(int $limite = 3): array
-{
-    $stmt = $this->pdo->prepare(
-        "SELECT e.*,
-                u.nom AS createur_nom,
-                (SELECT COUNT(*) FROM inscriptions_evenements i
-                 WHERE i.id_evenement = e.id) AS nb_inscrits
-         FROM evenements e
-         LEFT JOIN utilisateurs u ON e.id_createur = u.id
-         WHERE e.type = 'public'
-         ORDER BY e.date_evenement DESC
-         LIMIT :limite"
-    );
-    $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll();
-}
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT e.*,
+                    (SELECT COUNT(*) FROM inscriptions_evenements i
+                     WHERE i.id_evenement = e.id) AS nb_inscrits
+             FROM evenements e
+             WHERE e.type = 'public'
+             ORDER BY e.date_evenement ASC
+             LIMIT :limite"
+        );
+        $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     // ── Un événement par ID ──────────────────────────────────
     public function getParId(int $id): array|false
     {
         $stmt = $this->pdo->prepare(
             "SELECT e.*,
-                    u.nom AS createur_nom,
                     (SELECT COUNT(*) FROM inscriptions_evenements i
-                    WHERE i.id_evenement = e.id) AS nb_inscrits
-            FROM evenements e
-            LEFT JOIN utilisateurs u ON e.id_createur = u.id
-            WHERE e.id = :id LIMIT 1"
-);
-        
+                     WHERE i.id_evenement = e.id) AS nb_inscrits
+             FROM evenements e
+             WHERE e.id = :id LIMIT 1"
+        );
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
     }
@@ -141,30 +134,6 @@ class EvenementModel
         return $stmt->execute([':id' => $id]);
     }
 
-    // ── Vérifier si déjà inscrit à un événement ─────────────
-    public function dejaInscrit(int $idEvenement, string $email, ?int $idUtilisateur = null): bool
-    {
-        // Vérifier par email
-        $stmt = $this->pdo->prepare(
-            "SELECT COUNT(*) AS total FROM inscriptions_evenements
-             WHERE id_evenement = :evt AND email_visiteur = :email"
-        );
-        $stmt->execute([':evt' => $idEvenement, ':email' => $email]);
-        if ((int) $stmt->fetch()['total'] > 0) return true;
-
-        // Vérifier aussi par id_utilisateur si connecté
-        if ($idUtilisateur) {
-            $stmt2 = $this->pdo->prepare(
-                "SELECT COUNT(*) AS total FROM inscriptions_evenements
-                 WHERE id_evenement = :evt AND id_utilisateur = :uid"
-            );
-            $stmt2->execute([':evt' => $idEvenement, ':uid' => $idUtilisateur]);
-            if ((int) $stmt2->fetch()['total'] > 0) return true;
-        }
-
-        return false;
-    }
-
     // ── Inscrire un visiteur à un événement ──────────────────
     public function inscrire(int $idEvenement, string $nom, string $email,
                              string $telephone = '', ?int $idUtilisateur = null): bool
@@ -194,16 +163,14 @@ class EvenementModel
     // ── Recherche par titre ou lieu ──────────────────────────
     public function rechercher(string $terme): array
     {
-       $stmt = $this->pdo->prepare(
+        $stmt = $this->pdo->prepare(
             "SELECT e.*,
-                    u.nom AS createur_nom,
                     (SELECT COUNT(*) FROM inscriptions_evenements i
-                    WHERE i.id_evenement = e.id) AS nb_inscrits
-            FROM evenements e
-            LEFT JOIN utilisateurs u ON e.id_createur = u.id
-            WHERE e.titre LIKE :terme OR e.lieu LIKE :terme
-            ORDER BY e.date_evenement ASC"
-);
+                     WHERE i.id_evenement = e.id) AS nb_inscrits
+             FROM evenements e
+             WHERE e.titre LIKE :terme OR e.lieu LIKE :terme
+             ORDER BY e.date_evenement ASC"
+        );
         $stmt->execute([':terme' => '%' . $terme . '%']);
         return $stmt->fetchAll();
     }

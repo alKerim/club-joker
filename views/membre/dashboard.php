@@ -15,9 +15,9 @@ if (!function_exists('formatDateFr')) {
 
 function prioriteMembreBadge(string $p): string {
     $map = [
-        'haute'   => ['danger',    ' Haute'],
-        'moyenne' => ['warning',   ' Moyenne'],
-        'faible'  => ['secondary', ' Faible'],
+        'haute'   => ['danger',    '🔴 Haute'],
+        'moyenne' => ['warning',   '🟡 Moyenne'],
+        'faible'  => ['secondary', '🟢 Faible'],
     ];
     [$cls, $label] = $map[$p] ?? ['secondary','—'];
     return "<span class='badge bg-{$cls}'>{$label}</span>";
@@ -132,14 +132,14 @@ $tabActif  = $tab ?? 'overview';
 
     <!-- Bienvenue -->
     <div class="joker-card mb-4 p-4"
-         style="background:var(--beige);border:2px solid var(--blue);color:var(--blue)">
+         style="background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:var(--beige)">
       <div class="d-flex align-items-center gap-3">
-        <div class="sidebar-avatar" style="width:56px;height:56px;font-size:1.2rem;background:var(--blue);color:var(--beige)">
+        <div class="sidebar-avatar" style="width:56px;height:56px;font-size:1.2rem;background:rgba(245,236,215,.15)">
           <?= htmlspecialchars($initiales) ?>
         </div>
         <div>
-          <h4 style="color:var(--blue)" class="mb-1">Bonjour, <?= htmlspecialchars(explode(' ', $user['nom'])[0]) ?> 👋</h4>
-          <p style="color:var(--red)" class="mb-0 small fw-semibold">Membre actif du Club Joker 🃏</p>
+          <h4 style="color:var(--beige)" class="mb-1">Bonjour, <?= htmlspecialchars(explode(' ', $user['nom'])[0]) ?> 👋</h4>
+          <p style="color:rgba(245,236,215,.7)" class="mb-0 small">Membre actif du Club Joker</p>
         </div>
       </div>
     </div>
@@ -209,7 +209,7 @@ $tabActif  = $tab ?? 'overview';
             ?>
               <div class="empty-state py-3">
                 <i class="bi bi-check-circle fs-2"></i>
-                <p class="mt-2 small">Aucune tâche urgente </p>
+                <p class="mt-2 small">Aucune tâche urgente 🎉</p>
               </div>
             <?php else: ?>
               <?php foreach (array_slice($urgentes, 0, 4) as $t): ?>
@@ -251,21 +251,21 @@ $tabActif  = $tab ?? 'overview';
                   <td><?= formatDateFr($e['date_evenement']) ?> <?= $e['heure'] ? substr($e['heure'],0,5) : '' ?></td>
                   <td><?= htmlspecialchars($e['lieu'] ?? '—') ?></td>
                   <td><span class="event-badge <?= $e['type'] === 'public' ? 'public' : 'private' ?>">
-                    <?= $e['type'] === 'public' ? ' Public' : ' Privé' ?>
+                    <?= $e['type'] === 'public' ? '🌐 Public' : '🔒 Privé' ?>
                   </span></td>
                   <td><?= (int)$e['nb_inscrits'] ?>/<?= (int)$e['max_participants'] ?></td>
                   <td>
-                    <?php if (in_array((int)$e['id'], $inscriptions_ids)): ?>
-                      <span class="badge-status active small"> Inscrit</span>
-                    <?php elseif ($spots <= 0): ?>
-                      <span class="badge-status refused">Complet</span>
-                    <?php else: ?>
+                    <?php if ($e['type'] === 'public' && $spots > 0): ?>
                     <button class="btn btn-sm btn-joker-red"
                             data-bs-toggle="modal" data-bs-target="#modalInscription"
                             data-id="<?= $e['id'] ?>"
                             data-titre="<?= htmlspecialchars($e['titre']) ?>">
                       S'inscrire
                     </button>
+                    <?php elseif ($spots <= 0): ?>
+                      <span class="badge-status refused">Complet</span>
+                    <?php else: ?>
+                      <span class="badge-status active small">Inscrit</span>
                     <?php endif; ?>
                   </td>
                 </tr>
@@ -293,13 +293,6 @@ $tabActif  = $tab ?? 'overview';
             <span><i class="bi bi-clock text-blue"></i> <?= $r['heure'] ? substr($r['heure'],0,5) : '—' ?></span>
             <span><i class="bi bi-geo-alt text-red"></i> <?= htmlspecialchars($r['lieu'] ?? '—') ?></span>
           </div>
-          <?php if (!empty($r['lien_meet'])): ?>
-          <a href="<?= htmlspecialchars($r['lien_meet']) ?>" target="_blank"
-             class="btn btn-sm w-100 mt-2"
-             style="background:#1a73e8;color:#fff;border-radius:6px;font-size:.8rem">
-            <i class="bi bi-camera-video-fill me-1"></i>Rejoindre le Meet
-          </a>
-          <?php endif; ?>
           <span class="badge-status active mt-2 d-inline-block"><?= htmlspecialchars($r['type']) ?></span>
         </div>
         <?php endforeach; ?>
@@ -333,14 +326,14 @@ $tabActif  = $tab ?? 'overview';
                     <?php if ($t['deadline']): ?>
                       <?php $late = strtotime($t['deadline']) < time() && $t['statut'] === 'en_cours'; ?>
                       <span class="<?= $late ? 'text-danger fw-bold' : '' ?>">
-                        <?= $late ? '️ ' : '' ?><?= formatDateFr($t['deadline']) ?>
+                        <?= $late ? '⚠️ ' : '' ?><?= formatDateFr($t['deadline']) ?>
                       </span>
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                   </td>
                   <td><?= prioriteMembreBadge($t['priorite']) ?></td>
                   <td>
                     <span class="badge-status <?= $t['statut'] === 'termine' ? 'accepted' : 'pending' ?>">
-                      <?= $t['statut'] === 'termine' ? ' Terminé' : ' En cours' ?>
+                      <?= $t['statut'] === 'termine' ? '✅ Terminé' : '🔄 En cours' ?>
                     </span>
                   </td>
                 </tr>

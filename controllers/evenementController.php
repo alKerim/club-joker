@@ -4,8 +4,8 @@
  * Gère les pages publiques d'événements + inscription visiteur
  */
 
-require_once __DIR__ . '/../models/evenementModel.php';
-require_once __DIR__ . '/../controllers/authController.php';
+require_once __DIR__ . '/../models/EvenementModel.php';
+require_once __DIR__ . '/../controllers/AuthController.php';
 
 class EvenementController
 {
@@ -64,13 +64,6 @@ class EvenementController
 
         // Récupérer l'ID utilisateur si connecté
         $idUtilisateur = $_SESSION['user']['id'] ?? null;
-
-        // Vérifier si déjà inscrit (par email ou par compte membre)
-        if ($this->evenementModel->dejaInscrit($idEvenement, $email, $idUtilisateur)) {
-            $_SESSION['flash_error'] = 'Vous êtes déjà inscrit(e) à cet événement.';
-            header('Location: index.php?page=evenements');
-            exit;
-        }
 
         $ok = $this->evenementModel->inscrire($idEvenement, $nom, $email, $telephone, $idUtilisateur);
 

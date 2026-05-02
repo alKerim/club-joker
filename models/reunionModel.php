@@ -2,10 +2,10 @@
 /**
  * models/ReunionModel.php
  * Gestion des réunions — PDO + POO
- * Mise à jour : colonne lien_meet ajoutée
  */
 
-require_once dirname(__FILE__) . '/../config/database.php';
+require_once __DIR__ . '/../config/database.php';
+
 class ReunionModel
 {
     private PDO $pdo;
@@ -67,10 +67,8 @@ class ReunionModel
     public function ajouter(array $data): bool
     {
         $stmt = $this->pdo->prepare(
-            "INSERT INTO reunions
-                (titre, date_reunion, heure, lieu, ordre_du_jour, lien_meet, type, id_createur)
-             VALUES
-                (:titre, :date, :heure, :lieu, :odj, :lien, :type, :createur)"
+            "INSERT INTO reunions (titre, date_reunion, heure, lieu, ordre_du_jour, type, id_createur)
+             VALUES (:titre, :date, :heure, :lieu, :odj, :type, :createur)"
         );
         return $stmt->execute([
             ':titre'    => $data['titre'],
@@ -78,7 +76,6 @@ class ReunionModel
             ':heure'    => $data['heure'] ?? null,
             ':lieu'     => $data['lieu'] ?? '',
             ':odj'      => $data['ordre_du_jour'] ?? '',
-            ':lien'     => $data['lien_meet'] ?? null,
             ':type'     => $data['type'] ?? 'bureau',
             ':createur' => $data['id_createur'] ?? null,
         ]);
@@ -89,13 +86,12 @@ class ReunionModel
     {
         $stmt = $this->pdo->prepare(
             "UPDATE reunions
-             SET titre         = :titre,
-                 date_reunion  = :date,
-                 heure         = :heure,
-                 lieu          = :lieu,
+             SET titre = :titre,
+                 date_reunion = :date,
+                 heure = :heure,
+                 lieu = :lieu,
                  ordre_du_jour = :odj,
-                 lien_meet     = :lien,
-                 type          = :type
+                 type = :type
              WHERE id = :id"
         );
         return $stmt->execute([
@@ -104,7 +100,6 @@ class ReunionModel
             ':heure' => $data['heure'] ?? null,
             ':lieu'  => $data['lieu'] ?? '',
             ':odj'   => $data['ordre_du_jour'] ?? '',
-            ':lien'  => $data['lien_meet'] ?? null,
             ':type'  => $data['type'] ?? 'bureau',
             ':id'    => $id,
         ]);

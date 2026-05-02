@@ -20,7 +20,7 @@ class UtilisateurModel
     public function getTousMembres(): array
     {
         $stmt = $this->pdo->prepare(
-            "SELECT id, nom, email, role, date_inscription, telephone
+            "SELECT id, nom, email, role, statut, date_inscription, telephone
              FROM utilisateurs
              ORDER BY date_inscription DESC"
         );
@@ -28,13 +28,13 @@ class UtilisateurModel
         return $stmt->fetchAll();
     }
 
-    // ── Compter les membres ───────────────────────────
+    // ── Compter les membres actifs ───────────────────────────
     public function compterMembres(): int
     {
         $stmt = $this->pdo->prepare(
             "SELECT COUNT(*) AS total
              FROM utilisateurs
-             WHERE role = 'membre'"
+             WHERE role = 'membre' AND statut = 'actif'"
         );
         $stmt->execute();
         $row = $stmt->fetch();
@@ -55,7 +55,7 @@ class UtilisateurModel
     public function trouverParId(int $id): array|false
     {
         $stmt = $this->pdo->prepare(
-            "SELECT id, nom, email, role, telephone, date_inscription
+            "SELECT id, nom, email, role, statut, telephone, date_inscription
              FROM utilisateurs
              WHERE id = :id LIMIT 1"
         );
@@ -63,36 +63,38 @@ class UtilisateurModel
         return $stmt->fetch();
     }
 
-   // ── Créer un utilisateur avec hash déjà prêt ────────────
-public function creerAvecHash(string $nom, string $email, string $hashMdp,
-                               string $role = 'membre', string $telephone = ''): bool
-{
-    $stmt = $this->pdo->prepare(
-        "INSERT INTO utilisateurs 
-            (nom, email, mot_de_passe, role, telephone, date_inscription)
-         VALUES (:nom, :email, :mdp, :role, :tel, CURDATE())"
-    );
-    return $stmt->execute([
-        ':nom'   => $nom,
-        ':email' => $email,
-        ':mdp'   => $hashMdp,
-        ':role'  => $role,
-        ':tel'   => $telephone,
-    ]);
-}
+    // ── Créer un utilisateur (après acceptation d'une demande) ──
+    public function creer(string $nom, string $email, string $motDePasse,
+                          string $role = 'membre', string $telephone = ''): bool
+    {
+        $hash = password_hash($motDePasse, PASSWORD_BCRYPT);
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO utilisateurs (nom, email, mot_de_passe, role, statut, telephone)
+             VALUES (:nom, :email, :mdp, :role, 'actif', :tel)"
+        );
+        return $stmt->execute([
+            ':nom'   => $nom,
+            ':email' => $email,
+            ':mdp'   => $hash,
+            ':role'  => $role,
+            ':tel'   => $telephone,
+        ]);
+    }
+
     // ── Modifier un utilisateur ──────────────────────────────
     public function modifier(int $id, string $nom, string $email,
-                             string $telephone): bool
+                             string $telephone, string $statut): bool
     {
         $stmt = $this->pdo->prepare(
             "UPDATE utilisateurs
-             SET nom = :nom, email = :email, telephone = :tel
+             SET nom = :nom, email = :email, telephone = :tel, statut = :statut
              WHERE id = :id"
         );
         return $stmt->execute([
             ':nom'    => $nom,
             ':email'  => $email,
             ':tel'    => $telephone,
+            ':statut' => $statut,
             ':id'     => $id,
         ]);
     }
@@ -116,6 +118,9 @@ public function creerAvecHash(string $nom, string $email, string $hashMdp,
         if (!password_verify($motDePasse, $utilisateur['mot_de_passe'])) {
             return false;
         }
+        if ($utilisateur['statut'] !== 'actif') {
+            return false;
+        }
         return $utilisateur;
     }
 
@@ -124,7 +129,7 @@ public function creerAvecHash(string $nom, string $email, string $hashMdp,
     {
         $stmt = $this->pdo->prepare(
             "SELECT id, nom FROM utilisateurs
-             WHERE role = 'membre'
+             WHERE role = 'membre' AND statut = 'actif'
              ORDER BY nom ASC"
         );
         $stmt->execute();

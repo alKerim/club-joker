@@ -15,9 +15,9 @@ if (!function_exists('formatDateFr')) {
 
 function prioriteBadge(string $p): string {
     $map = [
-        'haute'   => ['danger',    ' Haute'],
-        'moyenne' => ['warning',   ' Moyenne'],
-        'faible'  => ['secondary', ' Faible'],
+        'haute'   => ['danger',    '🔴 Haute'],
+        'moyenne' => ['warning',   '🟡 Moyenne'],
+        'faible'  => ['secondary', '🟢 Faible'],
     ];
     [$cls, $label] = $map[$p] ?? ['secondary','—'];
     return "<span class='badge bg-{$cls}'>{$label}</span>";
@@ -199,7 +199,7 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
                       $isLate = strtotime($t['deadline']) < time() && $t['statut'] === 'en_cours';
                       ?>
                       <span class="<?= $isLate ? 'text-danger fw-bold' : '' ?>">
-                        <?= $isLate ? '️ ' : '' ?><?= formatDateFr($t['deadline']) ?>
+                        <?= $isLate ? '⚠️ ' : '' ?><?= formatDateFr($t['deadline']) ?>
                       </span>
                     <?php else: ?>
                       <span class="text-muted">—</span>
@@ -208,7 +208,7 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
                   <td><?= prioriteBadge($t['priorite']) ?></td>
                   <td>
                     <span class="badge-status <?= $t['statut'] === 'termine' ? 'accepted' : 'pending' ?>">
-                      <?= $t['statut'] === 'termine' ? ' Terminé' : ' En cours' ?>
+                      <?= $t['statut'] === 'termine' ? '✅ Terminé' : '🔄 En cours' ?>
                     </span>
                   </td>
                   <td>
@@ -264,9 +264,9 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
             <div class="col-md-6">
               <label class="form-label">Priorité</label>
               <select class="form-select" name="priorite">
-                <option value="haute"> Haute</option>
-                <option value="moyenne" selected> Moyenne</option>
-                <option value="faible"> Faible</option>
+                <option value="haute">🔴 Haute</option>
+                <option value="moyenne" selected>🟡 Moyenne</option>
+                <option value="faible">🟢 Faible</option>
               </select>
             </div>
             <div class="col-12">

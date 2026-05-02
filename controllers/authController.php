@@ -65,11 +65,7 @@ class AuthController
             'role'  => $utilisateur['role'],
         ];
 
-        if ($utilisateur['role'] === 'admin') {
-            $_SESSION['flash_success'] = 'Bienvenue, Président ' . $utilisateur['nom'] . ' ! 🎖️';
-        } else {
-            $_SESSION['flash_success'] = 'Bienvenue, ' . $utilisateur['nom'] . ' ! Membre actif du Club Joker 🃏';
-        }
+        $_SESSION['flash_success'] = 'Bienvenue, ' . $utilisateur['nom'] . ' !';
         $this->redirigerSelonRole($utilisateur['role']);
     }
 

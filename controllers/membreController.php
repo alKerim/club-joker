@@ -4,11 +4,11 @@
  * Dashboard membre + to-do list + formations
  */
 
-require_once __DIR__ . '/../models/evenementModel.php';
-require_once __DIR__ . '/../models/reunionModel.php';
+require_once __DIR__ . '/../models/EvenementModel.php';
+require_once __DIR__ . '/../models/ReunionModel.php';
 require_once __DIR__ . '/../models/TacheModel.php';
 require_once __DIR__ . '/../models/DemandeModel.php';
-require_once __DIR__ . '/../controllers/authController.php';
+require_once __DIR__ . '/../controllers/AuthController.php';
 
 class MembreController
 {
@@ -35,14 +35,6 @@ class MembreController
         $reunions    = $this->reunionModel->getAVenir();
         $mes_taches  = $this->tacheModel->getTachesParMembre($uid);
         $todo_list   = $this->tacheModel->getTodoMembre($uid);
-
-        // Construire la liste des événements où le membre est déjà inscrit
-        $inscriptions_ids = [];
-        foreach ($evenements as $e) {
-            if ($this->evenementModel->dejaInscrit((int)$e['id'], $_SESSION['user']['email'], $uid)) {
-                $inscriptions_ids[] = (int)$e['id'];
-            }
-        }
 
         $stats = [
             'evenements' => count($evenements),

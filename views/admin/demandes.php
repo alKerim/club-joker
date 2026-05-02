@@ -173,9 +173,9 @@ $initiales = mb_strtoupper(mb_substr($user['nom'], 0, 1))
               <?php else: ?>
                 <?php foreach ($demandes as $d):
                   $sMap = [
-                    'en_attente' => ['pending',  ' En attente'],
-                    'accepte'    => ['accepted', ' Accepté'],
-                    'refuse'     => ['refused',  ' Refusé'],
+                    'en_attente' => ['pending',  '⏳ En attente'],
+                    'accepte'    => ['accepted', '✅ Accepté'],
+                    'refuse'     => ['refused',  '❌ Refusé'],
                   ];
                   [$cls, $label] = $sMap[$d['statut']] ?? ['pending','—'];
                 ?>

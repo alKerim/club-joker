@@ -38,7 +38,7 @@ $recherche     = $_GET['q'] ?? '';
 <!-- Page Header -->
 <div class="page-header">
   <div class="container" style="position:relative;z-index:2;">
-    <h1 class="animate-fadeInUp"> Événements</h1>
+    <h1 class="animate-fadeInUp">📅 Événements</h1>
     <p class="animate-fadeInUp delay-1">Découvrez et inscrivez-vous à nos événements.</p>
   </div>
 </div>
@@ -73,8 +73,8 @@ $recherche     = $_GET['q'] ?? '';
           <select class="form-select form-select-sm rounded-joker" name="filtre"
                   onchange="this.form.submit()" style="width:150px">
             <option value="tous"   <?= $filtreCourant === 'tous'   ? 'selected' : '' ?>>Tous</option>
-            <option value="public" <?= $filtreCourant === 'public' ? 'selected' : '' ?>> Publics</option>
-            <option value="prive"  <?= $filtreCourant === 'prive'  ? 'selected' : '' ?>> Privés</option>
+            <option value="public" <?= $filtreCourant === 'public' ? 'selected' : '' ?>>🌐 Publics</option>
+            <option value="prive"  <?= $filtreCourant === 'prive'  ? 'selected' : '' ?>>🔒 Privés</option>
           </select>
         </form>
       </div>
@@ -97,7 +97,7 @@ $recherche     = $_GET['q'] ?? '';
             <div class="card-body p-4">
               <div class="d-flex align-items-start justify-content-between mb-3">
                 <span class="event-badge <?= $typeClass ?>">
-                  <?= $evt['type'] === 'public' ? ' Public' : ' Privé' ?>
+                  <?= $evt['type'] === 'public' ? '🌐 Public' : '🔒 Privé' ?>
                 </span>
                 <small class="text-muted fw-bold"><?= formatDateFr($evt['date_evenement']) ?></small>
               </div>
