@@ -69,8 +69,8 @@ class UtilisateurModel
     {
         $hash = password_hash($motDePasse, PASSWORD_BCRYPT);
         $stmt = $this->pdo->prepare(
-            "INSERT INTO utilisateurs (nom, email, mot_de_passe, role, statut, telephone)
-             VALUES (:nom, :email, :mdp, :role, 'actif', :tel)"
+            "INSERT INTO utilisateurs (nom, email, mot_de_passe, role, statut, telephone, date_inscription)
+             VALUES (:nom, :email, :mdp, :role, 'actif', :tel, CURDATE())"
         );
         return $stmt->execute([
             ':nom'   => $nom,
