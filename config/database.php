@@ -8,7 +8,7 @@
 class Database
 {
     // ── Paramètres locaux de secours (XAMPP/WAMP) ────────────
-    private static $host     = 'localhost';
+    private static $host     = '127.0.0.1';
     private static $dbname   = 'joker_club';
     private static $user     = 'root';
     private static $password = '';
