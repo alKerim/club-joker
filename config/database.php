@@ -57,10 +57,18 @@ class Database
     private static function env(string $key, string $default = '')
     {
         $value = getenv($key);
-        if ($value === false || $value === '') {
-            return $default;
+        if ($value !== false && $value !== '') {
+            return $value;
         }
 
-        return $value;
+        if (isset($_ENV[$key]) && $_ENV[$key] !== '') {
+            return $_ENV[$key];
+        }
+
+        if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') {
+            return $_SERVER[$key];
+        }
+
+        return $default;
     }
 }
